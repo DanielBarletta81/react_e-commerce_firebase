@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow anyone to read products (for browsing)
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if request.auth != null; // Only authenticated users can create/update/delete
+    }
+    
+    // Users can only access their own user documents
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users can only access their own orders
+    match /orders/{orderId} {
+      allow read, write: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Users can only access their own carts
+    match /carts/{cartId} {
+      allow read, write: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Test collection (for development - remove in production)
+    match /test/{document} {
+      allow read, write: if true;
+    }
+  }
+}

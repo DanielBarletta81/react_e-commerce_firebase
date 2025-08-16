@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# 🛒 React E-Commerce Firebase App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, full-stack e-commerce application built with React 19 and Firebase, featuring a stunning cyberpunk-inspired design with interactive cursor effects.
 
-## Available Scripts
+## 🚀 [Live Demo](https://your-app-name.vercel.app)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- **🛍️ Product Catalog** - Browse and manage products with advanced filtering
+- **🛒 Shopping Cart** - Add, remove, and update quantities with persistent storage
+- **👤 User Authentication** - Secure login/register with Firebase Auth
+- **📱 Responsive Design** - Mobile-friendly with modern CSS animations
+- **🎨 Interactive UI** - Cursor-tracking effects and raised card animations
+- **📊 Order Management** - Complete order history and tracking
+- **🧪 Test Coverage** - 20 comprehensive tests with TDD approach
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🛠️ Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Frontend**: React 19, Vite, React Router
+- **Backend**: Firebase Firestore, Firebase Auth
+- **Styling**: Custom CSS with CSS Variables, Inter Font
+- **Testing**: Vitest, React Testing Library
+- **Deployment**: Vercel, GitHub Actions CI/CD
 
-### `npm test`
+## 🎮 Quick Start
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+# Clone repository
+git clone https://github.com/DanielBarletta81/react_e-commerce_firebase.git
+cd react_e-commerce_firebase
 
-### `npm run build`
+# Install dependencies
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Set up environment variables
+cp .env.local.example .env.local
+# Add your Firebase configuration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Start development server
+npm run dev
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🧪 Testing
 
-### `npm run eject`
+```bash
+# Run all tests
+npm test -- --run
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Watch mode
+npm run test:watch
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Coverage report
+npm run test:coverage
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔧 Environment Variables
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Create a `.env.local` file with your Firebase configuration:
 
-## Learn More
+```bash
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🎯 Key Routes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `/` - Welcome page
+- `/products` - Product catalog
+- `/cart` - Shopping cart
+- `/profile` - User profile management
+- `/orders` - Order history
 
-### Code Splitting
+## 📱 Design Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Dark Theme**: Cyberpunk-inspired with neon accents
+- **Light Theme**: Clean profile sections with soft gradients
+- **Animations**: Cursor-tracking ripples and hover effects
+- **Typography**: Modern Inter font with gradient text effects
+- **Responsive**: Optimized for all screen sizes
 
-### Analyzing the Bundle Size
+## 🔒 Security
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Environment-based configuration
+- Cleaned git history (no exposed secrets)
+- Firebase security rules
+- Secure authentication flow
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with ❤️ by [Daniel Barletta](https://github.com/DanielBarletta81)

@@ -11,7 +11,7 @@ import ShoppingCart from './components/Cart/ShoppingCart';
 import OrderHistory from './components/Orders/OrderHistory';
 import FirebaseTest from './components/Test/FirebaseTest';
 import ProductDebug from './components/Debug/ProductDebug';
-import SimpleProductTest from './components/Debug/SimpleProductTest';
+
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import ErrorLogger from './components/Debug/ErrorLogger';
 import CursorTracker from './components/Effects/CursorTracker';
@@ -29,7 +29,6 @@ function App() {
               <Route path="/" element={<h1>Welcome to Daniel's E-Commerce App</h1>} />
               <Route path="/test" element={<FirebaseTest />} />
               <Route path="/debug" element={<ProductDebug />} />
-              <Route path="/simple-test" element={<SimpleProductTest />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<UserProfile />} />

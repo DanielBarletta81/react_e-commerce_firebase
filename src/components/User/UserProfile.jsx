@@ -3,6 +3,7 @@ import { getCurrentUser } from '../../services/authService';
 import { getUserData, updateUserData, deleteUserAccount } from '../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/profile.css';
+import '../../styles/toasts.css';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({});
@@ -26,9 +27,11 @@ const UserProfile = () => {
 
     const result = await getUserData(user.uid);
     if (result.success) {
+      console.log('👤 User data loaded:', result.data);
       setUserData(result.data);
       setFormData(result.data);
     } else {
+      console.error('❌ Failed to load user data:', result.error);
       setError(result.error);
     }
     setLoading(false);
@@ -95,7 +98,9 @@ const UserProfile = () => {
   return (
     <div className="user-profile">
       <div className="profile-container">
-        <h2>User Profile</h2>
+        <div className="profile-header">
+          <h2>User Profile</h2>
+        </div>
         
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
@@ -103,19 +108,37 @@ const UserProfile = () => {
         {!isEditing ? (
           <div className="profile-view">
             <div className="profile-info">
-              <p><strong>Name:</strong> {userData.displayName || `${userData.firstName} ${userData.lastName}`}</p>
-              <p><strong>Email:</strong> {userData.email}</p>
-              <p><strong>First Name:</strong> {userData.firstName}</p>
-              <p><strong>Last Name:</strong> {userData.lastName}</p>
-              <p><strong>Phone:</strong> {userData.phone || 'Not provided'}</p>
-              <p><strong>Member since:</strong> {userData.createdAt?.toDate?.()?.toLocaleDateString() || 'Unknown'}</p>
+              <div className="profile-field">
+                <strong>Name:</strong>
+                <span>{userData.displayName || `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'Not provided'}</span>
+              </div>
+              <div className="profile-field">
+                <strong>Email:</strong>
+                <span>{userData.email || 'Not provided'}</span>
+              </div>
+              <div className="profile-field">
+                <strong>First Name:</strong>
+                <span>{userData.firstName || 'Not provided'}</span>
+              </div>
+              <div className="profile-field">
+                <strong>Last Name:</strong>
+                <span>{userData.lastName || 'Not provided'}</span>
+              </div>
+              <div className="profile-field">
+                <strong>Phone:</strong>
+                <span>{userData.phone || 'Not provided'}</span>
+              </div>
+              <div className="profile-field">
+                <strong>Member since:</strong>
+                <span>{userData.createdAt?.toDate?.()?.toLocaleDateString() || 'Unknown'}</span>
+              </div>
             </div>
             
             <div className="profile-actions">
               <button onClick={handleEdit} className="edit-btn">
                 Edit Profile
               </button>
-              <button onClick={handleDelete} className="delete-btn">
+              <button onClick={handleDelete} className="cancel-btn">
                 Delete Account
               </button>
             </div>

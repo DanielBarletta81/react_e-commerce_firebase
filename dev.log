@@ -1,0 +1,11 @@
+
+> react_e-commerce_firebase@0.1.0 dev
+> vite
+
+
+  VITE v7.1.2  ready in 136 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: use --host to expose
+10:42:50 AM [vite] (client) hmr update /src/components/Products/ProductForm.jsx, /src/components/Products/ProductList.jsx, /src/components/Debug/ProductDebug.jsx
+10:42:55 AM [vite] (client) hmr update /src/components/Products/ProductForm.jsx, /src/components/Products/ProductList.jsx, /src/components/Debug/ProductDebug.jsx

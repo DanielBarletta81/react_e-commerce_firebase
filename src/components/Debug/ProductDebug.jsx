@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getAllProducts } from '../../services/productService';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 
 const ProductDebug = () => {
@@ -106,6 +106,38 @@ const ProductDebug = () => {
     setLoading(false);
   };
 
+  const seedDatabase = async () => {
+    setLoading(true);
+    try {
+      let info = '🌱 Seeding database with comprehensive sample data...\n\n';
+      setDebugInfo(info);
+      
+      // Sample products
+      const sampleProducts = [
+        { title: "Laptop Stand Adjustable", description: "Ergonomic aluminum laptop stand", price: 59.99, category: "electronics", stock: 35, featured: false },
+        { title: "Running Shoes", description: "Lightweight running shoes with advanced cushioning", price: 129.99, category: "sports", stock: 60, featured: true },
+        { title: "Kitchen Knife Set", description: "Professional-grade stainless steel kitchen knives", price: 149.99, category: "home", stock: 20, featured: false }
+      ];
+      
+      // Add products
+      for (const product of sampleProducts) {
+        await addDoc(collection(db, 'products'), {
+          ...product,
+          image: `https://images.unsplash.com/photo-${Math.random().toString(36).substr(2, 9)}?w=400`,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+      }
+      
+      info += `✅ Added ${sampleProducts.length} additional products\n\n`;
+      setDebugInfo(info);
+      
+    } catch (error) {
+      setDebugInfo(`❌ Seeding failed: ${error.message}\n\n`);
+    }
+    setLoading(false);
+  };
+
   const checkFirebaseConfig = () => {
     setLoading(true);
     
@@ -156,10 +188,18 @@ const ProductDebug = () => {
         
         <button 
           onClick={testProductService}
-          style={{ padding: '10px', background: '#17a2b8', color: 'white', border: 'none', borderRadius: '4px' }}
+          style={{ marginRight: '10px', padding: '10px', background: '#17a2b8', color: 'white', border: 'none', borderRadius: '4px' }}
           disabled={loading}
         >
           Test Product Service
+        </button>
+        
+        <button 
+          onClick={seedDatabase}
+          style={{ padding: '10px', background: '#ffc107', color: 'black', border: 'none', borderRadius: '4px' }}
+          disabled={loading}
+        >
+          🌱 Seed More Data
         </button>
       </div>
       

@@ -12,6 +12,7 @@ import {
 import { deleteUser } from "firebase/auth";
 import { db, auth } from "../config/firebase";
 
+
 const USERS_COLLECTION = "users";
 
 // Create user document in Firestore
@@ -31,6 +32,7 @@ export const getUserData = async (userId) => {
   try {
     const userRef = doc(db, USERS_COLLECTION, userId);
     const userSnap = await getDoc(userRef);
+    
     
     if (userSnap.exists()) {
       return { success: true, data: userSnap.data() };
@@ -88,6 +90,7 @@ export const getAllUsers = async () => {
     querySnapshot.forEach((doc) => {
       users.push({ id: doc.id, ...doc.data() });
     });
+
     
     return { success: true, data: users };
   } catch (error) {
@@ -107,6 +110,9 @@ export const searchUsersByEmail = async (email) => {
     querySnapshot.forEach((doc) => {
       users.push({ id: doc.id, ...doc.data() });
     });
+    if (users.length === 0) {
+      return { success: false, error: "No users found with that email" };
+    }
     
     return { success: true, data: users };
   } catch (error) {

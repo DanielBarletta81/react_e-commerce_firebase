@@ -7,6 +7,7 @@ import {
 import { auth } from "../config/firebase";
 import { createUserDocument } from "./userService";
 
+
 // Register a new user
 export const registerUser = async (email, password, userData) => {
   try {
@@ -54,5 +55,10 @@ export const onAuthStateChange = (callback) => {
 
 // Get current user
 export const getCurrentUser = () => {
-  return auth.currentUser;
+  return auth.currentUser ? {
+    uid: auth.currentUser.uid,
+    email: auth.currentUser.email,
+    displayName: auth.currentUser.displayName,
+    photoURL: auth.currentUser.photoURL
+  } : null;
 };

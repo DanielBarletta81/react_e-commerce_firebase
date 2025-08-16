@@ -1,16 +1,17 @@
-import { 
+import{
   collection,
-  doc, 
+  doc,
   addDoc,
   getDoc,
   getDocs,
-  updateDoc, 
+  updateDoc,
   deleteDoc,
   query,
   orderBy,
   where
 } from "firebase/firestore";
 import { db } from "../config/firebase";
+
 
 const ORDERS_COLLECTION = "orders";
 const CARTS_COLLECTION = "carts";
@@ -51,6 +52,7 @@ export const getUserOrders = async (userId) => {
       orders.push({ id: doc.id, ...doc.data() });
     });
     
+    
     return { success: true, data: orders };
   } catch (error) {
     console.error("Error getting user orders:", error);
@@ -65,6 +67,7 @@ export const getOrderById = async (orderId) => {
     const orderSnap = await getDoc(orderRef);
     
     if (orderSnap.exists()) {
+      
       return { success: true, data: { id: orderSnap.id, ...orderSnap.data() } };
     } else {
       return { success: false, error: "Order not found" };
@@ -74,6 +77,8 @@ export const getOrderById = async (orderId) => {
     return { success: false, error: error.message };
   }
 };
+
+
 
 // Update order status
 export const updateOrderStatus = async (orderId, status) => {

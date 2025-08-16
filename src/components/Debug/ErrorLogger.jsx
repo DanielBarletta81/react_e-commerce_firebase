@@ -19,12 +19,12 @@ const ErrorLogger = () => {
     // Monitor network requests
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
-      const url = args[0];
+      const url = typeof args[0] === 'string' ? args[0] : args[0].url || 'unknown';
       const options = args[1] || {};
       
       setNetworkRequests(prev => [...prev, {
         url,
-        method: options.method || 'GET',
+        method: options.method || (args[0].method) || 'GET',
         timestamp: new Date().toLocaleTimeString(),
         status: 'pending'
       }]);
@@ -120,14 +120,14 @@ const ErrorLogger = () => {
         <strong>Network Requests ({networkRequests.length}):</strong>
         {networkRequests.slice(-5).map((req, index) => (
           <div key={index} style={{ 
-            color: req.status >= 400 ? 'red' : req.status >= 300 ? 'orange' : 'green',
+            color: Number(req.status) >= 400 ? 'red' : Number(req.status) >= 300 ? 'orange' : 'green',
             backgroundColor: '#f0f0f0',
             padding: '2px 4px',
             margin: '2px 0',
             borderRadius: '2px',
             fontSize: '10px'
           }}>
-            [{req.timestamp}] {req.method} {req.status} - {req.url}
+            [{req.timestamp}] {req.method} {String(req.status || 'pending')} - {req.url}
           </div>
         ))}
       </div>

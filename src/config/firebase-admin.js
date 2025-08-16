@@ -8,7 +8,7 @@ const initializeAdmin = () => {
   if (admin.apps.length === 0) {
     try {
       // Option 1: Using service account key file
-      const serviceAccount = require('../../../service-account-key.json');
+      const serviceAccount = require('../../service-account-key.json');
       
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),

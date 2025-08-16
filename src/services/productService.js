@@ -1,22 +1,36 @@
-import { 
-  collection,
-  doc, 
+import { collection,
+  doc,
   addDoc,
   getDoc,
   getDocs,
-  updateDoc, 
+  updateDoc,
   deleteDoc,
   query,
   orderBy,
-  where,
-  limit,
-  startAfter
+  where
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 const PRODUCTS_COLLECTION = "products";
 
 // Helper function to convert Firestore Timestamps to JavaScript Dates
+export const convertFirestoreDocToJSObject = (doc) => {
+  if (!doc || typeof doc.data !== 'function') {
+    throw new Error("Invalid document provided");
+  }
+  const data = doc.data();
+  if (!data) {
+    throw new Error("Document data is empty");
+  }
+  return {
+    id: doc.id,
+    ...data,
+    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
+    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt
+  };
+};
+
+// Convert Firestore document to plain JavaScript object
 const convertFirestoreData = (doc) => {
   const data = doc.data();
   return {
@@ -42,48 +56,33 @@ export const createProduct = async (productData) => {
   }
 };
 
-// Read all products with optional pagination and filtering
-export const getAllProducts = async (options = {}) => {
-  try {
-    const { 
-      limitCount = null, 
-      orderByField = "createdAt", 
-      orderDirection = "desc",
-      startAfterDoc = null 
-    } = options;
-    
-    let q = query(collection(db, PRODUCTS_COLLECTION));
-    
-    // Add ordering
-    q = query(q, orderBy(orderByField, orderDirection));
-    
-    // Add pagination
-    if (startAfterDoc) {
-      q = query(q, startAfter(startAfterDoc));
-    }
-    
-    // Add limit
-    if (limitCount) {
-      q = query(q, limit(limitCount));
-    }
-    
-    const querySnapshot = await getDocs(q);
-    
-    const products = [];
-    querySnapshot.forEach((doc) => {
-      products.push(convertFirestoreData(doc));
-    });
-    
-    return { 
-      success: true, 
-      data: products,
-      lastDoc: querySnapshot.docs[querySnapshot.docs.length - 1] || null,
-      count: products.length
-    };
-  } catch (error) {
-    console.error("Error getting products:", error);
-    return { success: false, error: error.message };
-  }
+// Read all products
+export const getAllProducts = async () => {
+try {
+console.log('🔍 Starting getAllProducts...');
+
+// Simple query - just get all products
+const querySnapshot = await getDocs(collection(db, PRODUCTS_COLLECTION));
+
+console.log('📊 Found', querySnapshot.size, 'documents');
+
+const products = [];
+querySnapshot.forEach((doc) => {
+  const productData = doc.data();
+  console.log('📄 Product:', doc.id, productData.title);
+  products.push(convertFirestoreData(doc));
+});
+
+console.log('✅ Returning', products.length, 'products');
+return { 
+  success: true, 
+  data: products,
+  count: products.length
+};
+} catch (error) {
+console.error("❌ Error getting products:", error);
+return { success: false, error: error.message };
+}
 };
 
 // Read a single product by ID
@@ -93,7 +92,7 @@ export const getProductById = async (productId) => {
     const productSnap = await getDoc(productRef);
     
     if (productSnap.exists()) {
-      return { success: true, data: convertFirestoreData(productSnap) };
+      return { success: true, data: productSnap.data() };
     } else {
       return { success: false, error: "Product not found" };
     }
@@ -152,45 +151,27 @@ export const getProductsByCategory = async (category) => {
   }
 };
 
-// Get featured products (limited number)
-export const getFeaturedProducts = async (limitCount = 6) => {
-  try {
-    const q = query(
-      collection(db, PRODUCTS_COLLECTION), 
-      where("featured", "==", true),
-      orderBy("createdAt", "desc"),
-      limit(limitCount)
-    );
-    const querySnapshot = await getDocs(q);
-    
-    const products = [];
-    querySnapshot.forEach((doc) => {
-      products.push(convertFirestoreData(doc));
-    });
-    
-    return { success: true, data: products };
-  } catch (error) {
-    console.error("Error getting featured products:", error);
-    return { success: false, error: error.message };
-  }
-};
-
 // Search products by name or description
 export const searchProducts = async (searchTerm) => {
   try {
-    // Note: For better search, consider using Algolia or similar
-    // This is a basic implementation
+    if (!searchTerm || searchTerm.trim() === "") {
+      return { success: false, error: "Search term cannot be empty" };
+    }
     const querySnapshot = await getDocs(collection(db, PRODUCTS_COLLECTION));
-    
     const products = [];
+
+    // Iterate through all products and filter by search term
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const searchString = `${data.title} ${data.description}`.toLowerCase();
+
       if (searchString.includes(searchTerm.toLowerCase())) {
         products.push(convertFirestoreData(doc));
       }
     });
-    
+    if (products.length === 0) {
+      return { success: false, error: "No products found matching the search term" };
+    }
     return { success: true, data: products };
   } catch (error) {
     console.error("Error searching products:", error);

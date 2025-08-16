@@ -9,7 +9,7 @@ import ProductList from './components/Products/ProductList';
 import ProductForm from './components/Products/ProductForm';
 import ShoppingCart from './components/Cart/ShoppingCart';
 import OrderHistory from './components/Orders/OrderHistory';
-import FirebaseTest from './components/Test/FirebaseTest';
+
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import CursorTracker from './components/Effects/CursorTracker';
 import './App.css';
@@ -24,7 +24,7 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<h1>Welcome to Daniel's E-Commerce App</h1>} />
-              <Route path="/test" element={<FirebaseTest />} />
+              
 
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

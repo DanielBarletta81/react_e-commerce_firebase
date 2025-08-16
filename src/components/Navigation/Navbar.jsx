@@ -25,7 +25,7 @@ const Navbar = () => {
         <div className="navbar-nav">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/products" className="nav-link">Products</Link>
-          <Link to="/debug" className="nav-link" style={{ background: '#ff4444', padding: '4px 8px', borderRadius: '4px' }}>🐛 Debug</Link>
+
           
           {currentUser ? (
             <>

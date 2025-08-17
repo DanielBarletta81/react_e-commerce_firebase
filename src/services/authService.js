@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 
 import { createUserDocument } from "./userService";
+import { auth } from "../config/firebase";
 
 
 // Register a new user

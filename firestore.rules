@@ -24,9 +24,9 @@ service cloud.firestore {
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
     
-    // Test collection (for development - remove in production)
-    match /test/{document} {
-      allow read, write: if true;
+    // Admin-only collections (require admin privileges)
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
     }
   }
 }

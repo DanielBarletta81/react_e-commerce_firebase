@@ -10,45 +10,19 @@ import { collection,
   where
 } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { convertFirestoreDoc, prepareForFirestore } from '../utils/firestoreUtils.js';
 
 const PRODUCTS_COLLECTION = "products";
 
 // Helper function to convert Firestore Timestamps to JavaScript Dates
-export const convertFirestoreDocToJSObject = (doc) => {
-  if (!doc || typeof doc.data !== 'function') {
-    throw new Error("Invalid document provided");
-  }
-  const data = doc.data();
-  if (!data) {
-    throw new Error("Document data is empty");
-  }
-  return {
-    id: doc.id,
-    ...data,
-    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
-    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt
-  };
-};
-
-// Convert Firestore document to plain JavaScript object
-const convertFirestoreData = (doc) => {
-  const data = doc.data();
-  return {
-    id: doc.id,
-    ...data,
-    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
-    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt
-  };
-};
+export const convertFirestoreDocToJSObject = convertFirestoreDoc;
 
 // Create a new product
 export const createProduct = async (productData) => {
   try {
-    const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), {
-      ...productData,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    });
+    const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), 
+      prepareForFirestore(productData)
+    );
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error("Error creating product:", error);
@@ -106,10 +80,7 @@ export const getProductById = async (productId) => {
 export const updateProduct = async (productId, updates) => {
   try {
     const productRef = doc(db, PRODUCTS_COLLECTION, productId);
-    await updateDoc(productRef, {
-      ...updates,
-      updatedAt: new Date()
-    });
+    await updateDoc(productRef, prepareForFirestore(updates, true));
     return { success: true };
   } catch (error) {
     console.error("Error updating product:", error);
@@ -166,7 +137,7 @@ export const searchProducts = async (searchTerm) => {
       const searchString = `${data.title} ${data.description}`.toLowerCase();
 
       if (searchString.includes(searchTerm.toLowerCase())) {
-        products.push(convertFirestoreData(doc));
+        products.push(convertFirestoreDoc(doc));
       }
     });
     if (products.length === 0) {

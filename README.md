@@ -2,7 +2,7 @@
 
 A modern, full-stack e-commerce application built with React 19 and Firebase, featuring a stunning cyberpunk-inspired design with interactive cursor effects.
 
-## 🚀 [Live Demo](https://react-e-commerce-firebase.vercel.app/)
+## 🚀 [Live Demo](https://react-e-commerce-firebase-d4te-daniel-barlettas-projects.vercel.app/)
 
 ## ✨ Features
 

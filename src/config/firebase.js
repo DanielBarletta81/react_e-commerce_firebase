@@ -12,6 +12,13 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Debug: Check if env variables are loaded
+console.log('🔧 Firebase Config Check:', {
+  hasApiKey: !!firebaseConfig.apiKey,
+  hasProjectId: !!firebaseConfig.projectId,
+  hasAuthDomain: !!firebaseConfig.authDomain
+});
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

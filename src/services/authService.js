@@ -4,7 +4,7 @@ import {
   signOut,
   onAuthStateChanged
 } from "firebase/auth";
-import { auth } from "../config/firebase";
+
 import { createUserDocument } from "./userService";
 
 

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ToastProvider } from './contexts/ToastContext';
 import Navbar from './components/Navigation/Navbar';
 
 // Lazy load components for code splitting
@@ -18,50 +19,52 @@ import './App.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div className="App">
-          <Navbar />
-          
-          <main className="main-content">
-            <Suspense fallback={<div className="loading-light">Loading...</div>}>
-              <Routes>
-                <Route path="/" element={<h1>Welcome to Daniel's E-Commerce App</h1>} />
-                
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/products" element={
-                  <ErrorBoundary>
-                    <ProductList />
-                  </ErrorBoundary>
-                } />
-                <Route path="/products/new" element={
-                  <ErrorBoundary>
-                    <ProductForm />
-                  </ErrorBoundary>
-                } />
-                <Route path="/products/edit/:id" element={
-                  <ErrorBoundary>
-                    <ProductForm />
-                  </ErrorBoundary>
-                } />
-                <Route path="/manage-products" element={
-                  <ErrorBoundary>
-                    <ProductList showActions={true} />
-                  </ErrorBoundary>
-                } />
-                <Route path="/cart" element={<ShoppingCart />} />
-                <Route path="/orders" element={<OrderHistory />} />
-                <Route path="/about" element={<h1>About Us</h1>} />
-                <Route path="/contact" element={<h1>Get in touch with us!</h1>} />
-              </Routes>
-            </Suspense>
-          </main>
-        </div>
-        <CursorTracker />
-      </BrowserRouter>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <div className="App">
+            <Navbar />
+            
+            <main className="main-content">
+              <Suspense fallback={<div className="loading-light">Loading...</div>}>
+                <Routes>
+                  <Route path="/" element={<h1>Welcome to Daniel's E-Commerce App</h1>} />
+                  
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/products" element={
+                    <ErrorBoundary>
+                      <ProductList />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/products/new" element={
+                    <ErrorBoundary>
+                      <ProductForm />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/products/edit/:id" element={
+                    <ErrorBoundary>
+                      <ProductForm />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/manage-products" element={
+                    <ErrorBoundary>
+                      <ProductList showActions={true} />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/cart" element={<ShoppingCart />} />
+                  <Route path="/orders" element={<OrderHistory />} />
+                  <Route path="/about" element={<h1>About Us</h1>} />
+                  <Route path="/contact" element={<h1>Get in touch with us!</h1>} />
+                </Routes>
+              </Suspense>
+            </main>
+          </div>
+          <CursorTracker />
+        </BrowserRouter>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 

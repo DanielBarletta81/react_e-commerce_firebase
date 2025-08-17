@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useToastContext } from '../../contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import { createOrder, clearCart } from '../../services/orderService';
 import '../../styles/cart.css';
@@ -9,6 +10,7 @@ const ShoppingCart = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
+  const { showSuccess, showError, showInfo } = useToastContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,11 +80,13 @@ const ShoppingCart = () => {
       // Clear cart in Firestore as well
       await clearCart(currentUser.uid);
       
-      navigate('/orders', { 
-        state: { message: 'Order placed successfully!' } 
-      });
+      showSuccess('🎉 Order placed successfully! Redirecting to order history...', 3000);
+      
+      setTimeout(() => {
+        navigate('/orders');
+      }, 1500);
     } else {
-      setError(result.error);
+      showError(`❌ Checkout failed: ${result.error}`);
     }
     
     setLoading(false);

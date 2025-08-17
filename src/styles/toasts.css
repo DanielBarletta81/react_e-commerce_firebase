@@ -27,6 +27,11 @@
   flex-direction: column;
   gap: 12px;
   max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
 }
 
 /* Base toast styles */
@@ -72,6 +77,25 @@
   to {
     transform: translateX(0) scale(1);
     opacity: 1;
+  }
+}
+
+.toast-enter {
+  animation: toastSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-exit {
+  animation: toastSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
   }
 }
 

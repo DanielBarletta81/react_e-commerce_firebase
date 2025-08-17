@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAllProducts, deleteProduct } from '../../services/productService';
 import { useAuth } from '../../contexts/AuthContext';
+import { useToastContext } from '../../contexts/ToastContext';
 import { Link } from 'react-router-dom';
 import { safeRender, safePrice, safeText } from '../../utils/renderSafe';
 import '../../styles/products.css';
@@ -10,6 +11,7 @@ const ProductList = ({ showActions = false }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
+  const { showSuccess, showError } = useToastContext();
 
   useEffect(() => {
     loadProducts();
@@ -35,8 +37,9 @@ const ProductList = ({ showActions = false }) => {
     const result = await deleteProduct(productId);
     if (result.success) {
       setProducts(products.filter(p => p.id !== productId));
+      showSuccess('Product deleted successfully!');
     } else {
-      setError(result.error);
+      showError(`Failed to delete product: ${result.error}`);
     }
   };
 
@@ -55,7 +58,7 @@ const ProductList = ({ showActions = false }) => {
     
     // Save updated cart
     localStorage.setItem('cart', JSON.stringify(existingCart));
-    alert('Product added to cart!');
+    showSuccess(`🛒 ${product.title} added to cart!`, 2500);
   };
 
   if (loading) return <div className="loading">Loading products...</div>;

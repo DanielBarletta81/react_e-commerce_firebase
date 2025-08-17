@@ -69,7 +69,7 @@ export const getOrderById = async (orderId) => {
     
     if (orderSnap.exists()) {
       
-      return { success: true, data: { id: orderSnap.id, ...orderSnap.data() } };
+      return { success: true, data: convertFirestoreDoc(orderSnap) };
     } else {
       return { success: false, error: "Order not found" };
     }

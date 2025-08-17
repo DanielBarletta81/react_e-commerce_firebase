@@ -44,7 +44,7 @@ const products = [];
 querySnapshot.forEach((doc) => {
   const productData = doc.data();
   console.log('📄 Product:', doc.id, productData.title);
-  products.push(convertFirestoreData(doc));
+  products.push(convertFirestoreDoc(doc));
 });
 
 console.log('✅ Returning', products.length, 'products');
@@ -112,7 +112,7 @@ export const getProductsByCategory = async (category) => {
     
     const products = [];
     querySnapshot.forEach((doc) => {
-      products.push(convertFirestoreData(doc));
+      products.push(convertFirestoreDoc(doc));
     });
     
     return { success: true, data: products };
